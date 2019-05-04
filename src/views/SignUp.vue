@@ -1,7 +1,12 @@
 <template>
   <div class="login">
         <div class="login-form">
-            <h2 class="text-center">Sign in</h2>
+            <h2 class="text-center">Sign Up</h2>
+
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Name" required="required">
+            </div>
+
             <div class="form-group">
                 <input type="text" class="form-control" name="email" placeholder="Email" required="required">
             </div>
@@ -9,12 +14,13 @@
             <div class="form-group">
                 <input type="password" class="form-control" name="password" placeholder="Password" required="required">
             </div>
-            <div class="clearfix">
-                <label class="float-left checkbox-inline"><input type="checkbox"> Remember me</label>
+
+            <div class="form-group">
+                <input type="password" class="form-control" name="cpassword" placeholder="Confirm Password" required="required">
             </div>
-            <div class="form-group clearfix">
-                <button type="submit" class="btn btn-primary login-btn float-left">LOGIN</button>
-                <a href="#" class="float-right">Forgot Password?</a>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary login-btn">REGISTER</button>
             </div>
             <div class="or-seperator"><i>or signup with</i></div>
             <div class="text-center social-btn">
@@ -23,7 +29,7 @@
                 <a href="#" class="btn btn-danger"><i class="fa fa-google"></i>&nbsp; Google</a>
             </div>
         </div>
-        <p class="text-center text-muted small">Don't have an account? <router-link  to="/register">Sign up here!
+        <p class="text-center text-muted small">Already have an account? <router-link  to="/">Login here!
 </router-link></p>
   </div>
 </template>
@@ -31,7 +37,7 @@
 <script>
 // @ is an alias to /src
 export default {
-  name: 'login',
+  name: 'signup',
   data () {
     return {
 

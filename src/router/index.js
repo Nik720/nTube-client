@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '../views/Login.vue'
+import SignUp from '../views/SignUp.vue'
 
 Vue.use(Router)
 
@@ -14,10 +15,15 @@ export default new Router({
       component: Login
     },
     {
+      path: '/register',
+      name: 'register',
+      component: SignUp
+    },
+    {
       path: '/admin/dashboard',
       name: 'dashboard',
       component: () => import('../admin/Layout/Admin.vue'),
-      children: [
+        children: [
         {
           path: 'admin/manage-roles',
           name: 'manage-roles',
