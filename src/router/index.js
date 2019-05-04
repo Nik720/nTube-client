@@ -12,6 +12,18 @@ export default new Router({
       path: '/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/admin/dashboard',
+      name: 'dashboard',
+      component: () => import('../admin/Layout/Admin.vue'),
+      children: [
+        {
+          path: 'admin/manage-roles',
+          name: 'manage-roles',
+          component: () => import('../admin/views/Users.vue'),
+        }
+      ]
     }
   ]
 })
