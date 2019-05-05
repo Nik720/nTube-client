@@ -103,13 +103,13 @@ export default {
     methods: {
         fetchUsersList() {
             axios
-                .get("api/users")
-                .then(response => {
-                    this.items = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            .get("api/users")
+            .then(response => {
+                this.items = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
         },
         getRowCount(items) {
             return items.length;

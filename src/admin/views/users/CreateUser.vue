@@ -44,7 +44,7 @@
                             id="role"
                             v-model="form.role"
                             :plain="true"
-                            :options="['Admin', 'Public']"
+                            :options="rolesOption"
                             :class="errors.role.type !== '' ? 'is-invalid' : '' "
                         ></b-form-select>
                         <b-form-invalid-feedback :state="true">{{ errors.role.message }}</b-form-invalid-feedback>
@@ -105,6 +105,7 @@ export default {
     },
     data: () => {
         return {
+            rolesOption : [],
             form: {
                 name: '',
                 email: '',
@@ -140,7 +141,19 @@ export default {
             isAlertActive: false
         };
     },
+    created() {
+        this.fetchRoleList();
+    },
     methods: {
+        fetchRoleList() {
+            axios.get("api/roles")
+            .then(response => {
+                this.rolesOption = response.data.map(role => role.name);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
         initializeError() {
             this.fields.forEach((field, index) => {
                 this.errors[field].type = ""

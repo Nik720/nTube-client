@@ -7,7 +7,7 @@
         alt="admin@bootstrapmaster.com" />
     </template>
     <template slot="dropdown">
-      <b-dropdown-item><i class="fa fa-lock" /> Logout</b-dropdown-item>
+      <b-dropdown-item @click="logout()"><i class="fa fa-lock" /> Logout</b-dropdown-item>
     </template>
   </AppHeaderDropdown>
 </template>
@@ -20,7 +20,13 @@ export default {
     AppHeaderDropdown
   },
   data: () => {
-    return { }
+    return {
+      logout() {
+        localStorage.removeItem('nTube.jwt')
+        localStorage.removeItem('nTube.user')
+        this.$router.push('/')
+      }
+     }
   }
 }
 </script>
