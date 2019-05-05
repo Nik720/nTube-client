@@ -1,6 +1,7 @@
 <template>
   <div class="login">
         <div class="login-form">
+            <alert :alert-message="alertMessage" :alert-type="alertType" v-if="isAlertActive"></alert>
             <b-form @submit="onSubmit" @reset="onReset">
                 <h2 class="text-center">Sign in</h2>
 
@@ -49,28 +50,35 @@
 
 <script>
 // @ is an alias to /src
+import Alert from '@/components/Alert.component'
 export default {
-  name: 'login',
-  data () {
-    return {
-        form: {
-          email: '',
-          password: ''
-        },
-        errors: {
-            email: {
-                type: '',
-                message: ''
+    name: 'login',
+    components: {
+        Alert
+    },
+    data () {
+        return {
+            form: {
+            email: '',
+            password: ''
             },
-            password: {
-                type: '',
-                message: ''
-            }
-        },
-        fields: ['email', 'password']
-    }
-  },
-  methods: {
+            errors: {
+                email: {
+                    type: '',
+                    message: ''
+                },
+                password: {
+                    type: '',
+                    message: ''
+                }
+            },
+            fields: ['email', 'password'],
+            alertType: '',
+            alertMessage: '',
+            isAlertActive: false
+        }
+    },
+    methods: {
         initializeError() {
             this.fields.forEach((field, index) => {
                 this.errors[field].type = ""
@@ -103,16 +111,17 @@ export default {
                     this.$router.push('/products')
                 }
             }).catch(error => {
-                this.isLoggedInFail = true;
+                this.alertType = 'danger';
+                this.alertMessage = error.response.data.message.error;
+                this.isAlertActive = true;
             });
-
         },
         onReset(evt) {
             evt.preventDefault()
             this.form.email = ''
             this.form.password = ''
         }
-  }
+    }
 }
 </script>
 
