@@ -3,6 +3,13 @@ import Router from 'vue-router'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 
+
+// Containers
+const DefaultContainer = () => import('@/admin/Layout/Admin');
+const Dashboard = () => import('@/admin/views/Dashboard/Dashboard');
+const Users = () => import('@/admin/views/users/Users');
+const User = () => import('@/admin/views/users/User');
+
 Vue.use(Router)
 
 export default new Router({
@@ -20,16 +27,66 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/admin/dashboard',
-      name: 'dashboard',
-      component: () => import('../admin/Layout/Admin.vue'),
-        children: [
+      path: '/unauthorized',
+      name: 'unauthorized',
+      component: SignUp
+    },
+    {
+      path: '/videos',
+      name: 'videos',
+      component: SignUp,
+      meta: {
+        requiresAuth: true
+      },
+    },
+
+    // Admin panel routes
+    {
+      path: '/admin',
+      redirect: 'admin/dashboard',
+      name: 'Home',
+      component: DefaultContainer,
+      children: [
         {
-          path: 'admin/manage-roles',
-          name: 'manage-roles',
-          component: () => import('../admin/views/Users.vue'),
-        }
+          path: 'dashboard',
+          name: 'Dashboard',
+          component: Dashboard,
+          meta: {
+            requiresAuth: true,
+            permission: 'public'
+          },
+        },
+        {
+          path: '/admin/users',
+          meta: { label: 'Users'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: Users,
+              meta: {
+                requiresAuth: true,
+                permission: 'public'
+              },
+            },
+            {
+              path: ':id',
+              meta: { label: 'User Details'},
+              name: 'User',
+              component: User,
+              meta: {
+                requiresAuth: true,
+                permission: 'public'
+              },
+            },
+          ]
+        },
       ]
-    }
+    },
+
+
+
   ]
 })

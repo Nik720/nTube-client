@@ -59,8 +59,8 @@ export default {
     data () {
         return {
             form: {
-            email: '',
-            password: ''
+                email: '',
+                password: ''
             },
             errors: {
                 email: {
@@ -103,12 +103,15 @@ export default {
             let password = this.form.password
             axios.post('api/login', {email, password}).then(response => {
                 let user = response.data.user
-                localStorage.setItem('bigStore.user', JSON.stringify(user))
-                localStorage.setItem('bigStore.jwt', response.data.token)
+                localStorage.setItem('nTube.user', JSON.stringify(user))
+                localStorage.setItem('nTube.jwt', user.token)
 
-                if (localStorage.getItem('bigStore.jwt') != null) {
-                    this.$emit('loggedIn')
-                    this.$router.push('/products')
+                if (localStorage.getItem('nTube.jwt') != null) {
+                    if(user.role == 'admin') {
+                        this.$router.push('/admin/dashboard')
+                    } else {
+                        this.$router.push('/videos')
+                    }
                 }
             }).catch(error => {
                 this.alertType = 'danger';

@@ -42,23 +42,18 @@
 
 <script>
 import nav from '../_nav'
-import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
+import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarMinimizer, SidebarNav, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
 import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
 
 export default {
   name: 'DefaultContainer',
   components: {
-    AsideToggler,
     AppHeader,
     AppSidebar,
-    AppAside,
     TheFooter,
     Breadcrumb,
     DefaultHeaderDropdownAccnt,
-    SidebarForm,
-    SidebarFooter,
     SidebarToggler,
-    SidebarHeader,
     SidebarNav,
     SidebarMinimizer
   },
