@@ -1,7 +1,7 @@
 <template>
     <div class="alert-div">
-        <div :class="'alert alert-' + type" role="alert" v-if="type">
-            <Strong>{{ type.toUpperCase() }}!</Strong> {{ alertMessage }}
+        <div :class="'alert alert-' + alertType" role="alert" v-if="alertType">
+            <Strong>{{ alertType.toUpperCase() }}!</Strong> {{ alertMessage }}
         </div>
     </div>
 
@@ -12,15 +12,6 @@
         props: ['alertMessage', 'alertType'],
         data () {
             return {
-                type: this.alertType
-            }
-        },
-        watch: {
-            alertType: function(newVal, oldVal) {
-                setTimeout(() => {
-                    this.type = false,
-                    this.alertMessage = ''
-                },1000);
             }
         }
     }

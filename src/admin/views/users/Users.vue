@@ -118,17 +118,17 @@ export default {
             if (confirm("Are you sure? you want to delete user?")) {
                 axios.delete("api/user/delete/" + id).then(response => {
                     if (response.status) {
-                        (this.alertType = "success"),
-                            (this.alertMessage = "Deleted Successfully."),
-                            (this.isAlertActive = true);
+                        this.alertType = "success"
+                        this.alertMessage = "Deleted Successfully."
+                        this.isAlertActive = true
                         setTimeout(() => {
-                            (this.alertType = ""),
-                                (this.alertMessage = ""),
-                                (this.isAlertActive = false);
+                            this.alertType = ""
+                            this.alertMessage = ""
+                            this.isAlertActive = false
                         }, 3000);
                         this.items.splice(index, 1);
                     }
-                });
+                }).catch();
             }
         }
     }
