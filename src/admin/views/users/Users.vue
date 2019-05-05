@@ -97,7 +97,7 @@ export default {
             isAlertActive: false
         };
     },
-    created() {
+    mounted() {
         this.fetchUsersList();
     },
     methods: {
