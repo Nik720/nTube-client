@@ -12,6 +12,7 @@ const DefaultContainer = () => import('@/admin/Layout/Admin');
 const Dashboard = () => import('@/admin/views/Dashboard/Dashboard');
 const Users = () => import('@/admin/views/users/Users');
 const User = () => import('@/admin/views/users/User');
+const createUser = () => import('@/admin/views/users/CreateUser');
 
 Vue.use(Router)
 
@@ -56,7 +57,7 @@ export default new Router({
           component: Dashboard,
           meta: {
             requiresAuth: true,
-            permission: 'public'
+            permission: 'admin'
           },
         },
         {
@@ -71,19 +72,20 @@ export default new Router({
               component: Users,
               meta: {
                 requiresAuth: true,
-                permission: 'public'
+                permission: 'admin'
               },
             },
             {
-              path: ':id',
-              meta: { label: 'User Details'},
-              name: 'User',
-              component: User,
+              path: 'create',
+              meta: { label: 'Create User'},
+              name: 'Create',
+              component: createUser,
               meta: {
                 requiresAuth: true,
-                permission: 'public'
-              },
-            },
+                permission: 'admin'
+              }
+            }
+
           ]
         },
       ]

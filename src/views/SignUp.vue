@@ -54,9 +54,15 @@
                 </div>
                 <div class="or-seperator"><i>or signup with</i></div>
                 <div class="text-center social-btn">
-                    <a href="#" class="btn btn-info"><i class="fa fa-twitter"></i>&nbsp; Twitter</a>
-                    <a href="#" class="btn btn-primary"><i class="fa fa-facebook"></i>&nbsp; Facebook</a>
-                    <a href="#" class="btn btn-danger"><i class="fa fa-google"></i>&nbsp; Google</a>
+                    <b-button size="sm" class="mr-1 btn-brand" variant="twitter">
+                        <i class="fa fa-twitter"></i><span>Twitter</span>
+                    </b-button>
+                    <b-button size="sm" class="mr-1 btn-brand" variant="facebook">
+                        <i class="fa fa-facebook"></i><span>Facebook</span>
+                    </b-button>
+                    <b-button size="sm" variant="google-plus" class="mr-1 btn-brand">
+                        <i class="fa fa-google-plus"></i><span>Google+</span>
+                    </b-button>
                 </div>
             </b-form>
         </div>
@@ -192,18 +198,6 @@ export default {
 		border: none;
         margin: 10px 3px 0;
         opacity: 1;
-	}
-    .social-btn .btn:hover {
-        opacity: 0.9;
-    }
-	.social-btn .btn-primary {
-        background: #507cc0;
-    }
-	.social-btn .btn-info {
-		background: #64ccf1;
-	}
-	.social-btn .btn-danger {
-		background: #df4930;
 	}
     .or-seperator {
         margin-top: 20px;
