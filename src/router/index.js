@@ -5,14 +5,16 @@ import Router from 'vue-router'
 const Login = () => import('@/views/Login');
 const SignUp = () => import('@/views/SignUp');
 const Unauthorised = () => import('@/views/401');
-
+const Videos = () => import('@/views/videos');
 
 // Admin panel components
 const DefaultContainer = () => import('@/admin/Layout/Admin');
 const Dashboard = () => import('@/admin/views/Dashboard/Dashboard');
+
+// Users Components
 const Users = () => import('@/admin/views/users/Users');
-const User = () => import('@/admin/views/users/User');
 const createUser = () => import('@/admin/views/users/CreateUser');
+const editUser = () => import('@/admin/views/users/EditUser');
 
 Vue.use(Router)
 
@@ -38,7 +40,7 @@ export default new Router({
     {
       path: '/videos',
       name: 'videos',
-      component: SignUp,
+      component: Videos,
       meta: {
         requiresAuth: true
       },
@@ -77,10 +79,20 @@ export default new Router({
             },
             {
               path: 'create',
-              meta: { label: 'Create User'},
               name: 'Create',
               component: createUser,
               meta: {
+                label: 'Create User',
+                requiresAuth: true,
+                permission: 'admin'
+              }
+            },
+            {
+              path: 'edit/:id',
+              name: 'Edit User',
+              component: editUser,
+              meta: {
+                label: 'Edit User',
                 requiresAuth: true,
                 permission: 'admin'
               }

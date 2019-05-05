@@ -3,7 +3,7 @@
         <b-col md="8" sm="10" xs="12" md-pull-left="2">
             <b-card>
                 <div slot="header">
-                    <strong>Create User</strong>
+                    <strong>Edit User</strong>
                 </div>
                 <b-form>
                     <b-form-group label="Name" label-for="Name" :label-cols="3" :horizontal="true">
@@ -57,7 +57,7 @@
 
 <script>
 export default {
-    name: "Create Users",
+    name: "editUser",
     data: () => {
         return {};
     },

@@ -3,18 +3,25 @@
         <b-col cols="12" xl="12">
             <transition name="slide">
                 <div>
-
+                    <alert
+                        :alert-message="alertMessage"
+                        :alert-type="alertType"
+                        v-if="isAlertActive"
+                    ></alert>
                     <div class="mb-2 clearfix">
-                        <b-link variant="link" class="btn btn-primary btn-square float-right" to="users/create">Add User</b-link>
+                        <b-link
+                            variant="link"
+                            class="btn btn-primary btn-square float-right"
+                            to="users/create"
+                        >Add User</b-link>
                     </div>
 
-                    <b-card :header="caption">
+                    <b-card :header="'Users'">
                         <b-table
-                            :hover="hover"
-                            :striped="striped"
-                            :bordered="bordered"
-                            :small="small"
-                            :fixed="fixed"
+                            :hover="true"
+                            :striped="true"
+                            :bordered="true"
+                            :small="false"
                             responsive="sm"
                             :items="items"
                             :fields="fields"
@@ -22,13 +29,28 @@
                             :per-page="perPage"
                         >
                             <template slot="id" slot-scope="data">
-                                <strong>{{data.item.id}}</strong>
+                                <strong>{{data.index+1}}</strong>
                             </template>
                             <template slot="name" slot-scope="data">
-                                <strong>{{data.item.name}}</strong>
+                                <strong>{{data.item.username}}</strong>
                             </template>
-                            <template slot="status" slot-scope="data">
-                                <b-badge :variant="getBadge(data.item.status)">{{data.item.status}}</b-badge>
+                            <template slot="created on" slot-scope="data">
+                                <strong>{{data.item.createdAt|moment("dddd, MMMM Do YYYY")}}</strong>
+                            </template>
+                            <template slot="action" slot-scope="data">
+                                <b-link
+                                    class="btn btn-info btn-square mr-1 btn-sm"
+                                    :to="'users/edit/'+data.item._id"
+                                >
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </b-link>
+                                <b-button
+                                    size="sm"
+                                    class="btn btn-danger btn-square"
+                                    @click="deleteUser(data.item._id, data.index)"
+                                >
+                                    <i class="fa fa-trash"></i>
+                                </b-button>
                             </template>
                         </b-table>
                         <nav>
@@ -50,72 +72,68 @@
 </template>
 
 <script>
-import usersData from "./UsersData";
+import Alert from "@/components/Alert.component";
 export default {
     name: "Users",
-    props: {
-        caption: {
-            type: String,
-            default: "Users"
-        },
-        hover: {
-            type: Boolean,
-            default: true
-        },
-        striped: {
-            type: Boolean,
-            default: true
-        },
-        bordered: {
-            type: Boolean,
-            default: false
-        },
-        small: {
-            type: Boolean,
-            default: true
-        },
-        fixed: {
-            type: Boolean,
-            default: false
-        }
+    components: {
+        Alert
     },
     data: () => {
         return {
-            items: usersData.filter(user => user.id < 42),
+            items: [],
             fields: [
                 { key: "id" },
                 { key: "name" },
-                { key: "registered" },
+                { key: "email" },
                 { key: "role" },
-                { key: "status" }
+                { key: "created on" },
+                { key: "action" }
             ],
             currentPage: 1,
             perPage: 10,
-            totalRows: 0
+            totalRows: 0,
+            alertType: "",
+            alertMessage: "",
+            isAlertActive: false
         };
     },
-    computed: {},
+    created() {
+        this.fetchUsersList();
+    },
     methods: {
-        getBadge(status) {
-            return status === "Active"
-                ? "success"
-                : status === "Inactive"
-                ? "secondary"
-                : status === "Pending"
-                ? "warning"
-                : status === "Banned"
-                ? "danger"
-                : "primary";
+        fetchUsersList() {
+            axios
+                .get("api/users")
+                .then(response => {
+                    this.items = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         getRowCount(items) {
             return items.length;
+        },
+        deleteUser(id, index) {
+            if (confirm("Are you sure? you want to delete user?")) {
+                axios.delete("api/user/delete/" + id).then(response => {
+                    if (response.status) {
+                        (this.alertType = "success"),
+                            (this.alertMessage = "Deleted Successfully."),
+                            (this.isAlertActive = true);
+                        setTimeout(() => {
+                            (this.alertType = ""),
+                                (this.alertMessage = ""),
+                                (this.isAlertActive = false);
+                        }, 3000);
+                        this.items.splice(index, 1);
+                    }
+                });
+            }
         }
     }
 };
 </script>
 
 <style scoped>
-.card-body >>> table > tbody > tr > td {
-    cursor: pointer;
-}
 </style>
