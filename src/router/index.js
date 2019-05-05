@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../views/Login.vue'
-import SignUp from '../views/SignUp.vue'
+
+// Clients components
+const Login = () => import('@/views/Login');
+const SignUp = () => import('@/views/SignUp');
+const Unauthorised = () => import('@/views/401');
 
 
-// Containers
+// Admin panel components
 const DefaultContainer = () => import('@/admin/Layout/Admin');
 const Dashboard = () => import('@/admin/views/Dashboard/Dashboard');
 const Users = () => import('@/admin/views/users/Users');
@@ -29,7 +32,7 @@ export default new Router({
     {
       path: '/unauthorized',
       name: 'unauthorized',
-      component: SignUp
+      component: Unauthorised
     },
     {
       path: '/videos',

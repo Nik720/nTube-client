@@ -34,6 +34,18 @@ router.beforeEach((to, from, next) => {
           next()
       }
   } else {
+      if(to.path == '/' || to.path == '/register' && localStorage.getItem('nTube.jwt') !== null) {
+        if(to.meta.permission && to.meta.permission == user.role) {
+          next({
+            path: '/admin/dashboard',
+            params: {nextUrl: to.fullPath}
+          })
+        }
+        next({
+          path: '/videos',
+          params: {nextUrl: to.fullPath}
+        })
+      }
       next()
   }
 })
