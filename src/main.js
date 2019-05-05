@@ -25,6 +25,7 @@ axios.interceptors.response.use(
 );
 
 router.beforeEach((to, from, next) => {
+  const user = JSON.parse(localStorage.getItem('nTube.user'))
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('nTube.jwt') == null) {
       next({
@@ -32,9 +33,8 @@ router.beforeEach((to, from, next) => {
         params: { nextUrl: to.fullPath }
       })
     } else {
-      let user = JSON.parse(localStorage.getItem('nTube.user'))
 
-      if (to.meta.permission && to.meta.permission !== user.role) {
+      if (to.meta.permission && to.meta.permission.toLowerCase() !== user.role.toLowerCase()) {
         next({
           path: 'unauthorized',
           params: { nextUrl: to.fullPath }
@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     if ((to.path == '/' || to.path == '/register') && localStorage.getItem('nTube.jwt') !== null) {
-      if (to.meta.permission && to.meta.permission == user.role) {
+      if (to.meta.permission && to.meta.permission.toLowerCase() == user.role.toLowerCase()) {
         next({
           path: '/admin/dashboard',
           params: { nextUrl: to.fullPath }
