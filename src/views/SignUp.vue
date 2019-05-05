@@ -63,17 +63,25 @@ export default {
     .login-form h2 {
         margin: 0 0 15px;
     }
-    .form-control, .login-btn {
-        min-height: 38px;
-        border-radius: 2px;
+    .login-form .form-control {
         font-size: 14px;
     }
     .input-group-addon .fa {
         font-size: 18px;
     }
     .login-btn {
-        font-size: 15px;
+        border-radius: 2px;
+        font-size: 12px;
         font-weight: bold;
+        padding: 10px 20px;
+        min-height: 13px;
+        line-height: 12px;
+        background-color: #f85438;
+        border-color: #f85438;
+    }
+    .login-btn:hover {
+        background-color: #f85438;
+        border-color: #f85438;
     }
 	.social-btn .btn {
 		border: none;
