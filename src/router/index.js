@@ -9,12 +9,17 @@ const Videos = () => import('@/views/videos');
 
 // Admin panel components
 const DefaultContainer = () => import('@/admin/Layout/Admin');
-const Dashboard = () => import('@/admin/views/Dashboard/Dashboard');
+const Dashboard = () => import('@/admin/views/Dashboard');
 
 // Users Components
 const Users = () => import('@/admin/views/users/Users');
 const createUser = () => import('@/admin/views/users/CreateUser');
 const editUser = () => import('@/admin/views/users/EditUser');
+
+// Users Components
+const videosList = () => import('@/admin/views/videos/VideosList');
+const createVideo = () => import('@/admin/views/videos/AddVideo');
+const editVideo = () => import('@/admin/views/videos/EditVideo');
 
 Vue.use(Router)
 
@@ -93,6 +98,44 @@ export default new Router({
               component: editUser,
               meta: {
                 label: 'Edit User',
+                requiresAuth: true,
+                permission: 'admin'
+              }
+            }
+
+          ]
+        },
+        {
+          path: '/admin/videos',
+          meta: { label: 'Videos'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: videosList,
+              meta: {
+                requiresAuth: true,
+                permission: 'admin'
+              },
+            },
+            {
+              path: 'create',
+              name: 'Create video',
+              component: createVideo,
+              meta: {
+                label: 'Add Video',
+                requiresAuth: true,
+                permission: 'admin'
+              }
+            },
+            {
+              path: 'edit/:id',
+              name: 'Edit Video',
+              component: editVideo,
+              meta: {
+                label: 'Edit Video',
                 requiresAuth: true,
                 permission: 'admin'
               }

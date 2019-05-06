@@ -10,6 +10,11 @@ export default {
         url: '/admin/users',
         icon: 'fa fa-users'
       },
+      {
+        name: 'Manage Videos',
+        url: '/admin/videos',
+        icon: 'fa fa-video-camera'
+      },
 
     ]
   }
