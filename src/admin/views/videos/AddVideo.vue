@@ -9,50 +9,52 @@
                 <b-form @submit="onSubmit" @reset="onReset">
                     <b-form-group
                         label="Title"
-                        label-for="name"
+                        label-for="title"
                         :label-cols="3"
                         :horizontal="true"
                     >
                         <b-form-input
-                            id="name"
-                            v-model="form.name"
+                            id="title"
+                            v-model="form.title"
                             type="text"
-                            placeholder="Name"
-                            :class="errors.name.type !== '' ? 'is-invalid' : '' "
+                            placeholder="Title"
+                            :class="errors.title.type !== '' ? 'is-invalid' : '' "
                         ></b-form-input>
-                        <b-form-invalid-feedback :state="true">{{ errors.name.message }}</b-form-invalid-feedback>
+                        <b-form-invalid-feedback :state="true">{{ errors.title.message }}</b-form-invalid-feedback>
                     </b-form-group>
 
                     <b-form-group
                         label="Description"
-                        label-for="email"
+                        label-for="description"
                         :label-cols="3"
                         :horizontal="true"
                     >
-                        <b-form-input
-                            id="email"
-                            v-model="form.email"
-                            type="email"
-                            placeholder="email"
-                            :class="errors.email.type !== '' ? 'is-invalid' : '' "
-                        ></b-form-input>
-                        <b-form-invalid-feedback :state="true">{{ errors.email.message }}</b-form-invalid-feedback>
+                         <b-form-textarea
+                            id="description"
+                            v-model="form.description"
+                            placeholder="Enter Description..."
+                            rows="3"
+                            max-rows="6"
+                            :class="errors.description.type !== '' ? 'is-invalid' : '' "
+                        ></b-form-textarea>
+                        <b-form-invalid-feedback :state="true">{{ errors.description.message }}</b-form-invalid-feedback>
                     </b-form-group>
 
                     <b-form-group
                         label="Video"
-                        label-for="email"
+                        label-for="file"
                         :label-cols="3"
                         :horizontal="true"
                     >
                         <b-form-file
-                        v-model="form.file"
-                        :state="Boolean(form.file)"
-                        placeholder="Choose a file..."
-                        drop-placeholder="Drop file here..."
-                        accept="video/*"
+                            v-model="form.file"
+                            :state="Boolean(form.file)"
+                            placeholder="Choose a file..."
+                            drop-placeholder="Drop file here..."
+                            @change="onFileChange"
+                            accept="video/*"
                         ></b-form-file>
-                        <b-form-invalid-feedback :state="true">{{ errors.email.message }}</b-form-invalid-feedback>
+                        <b-form-invalid-feedback :state="true">{{ fileError.message }}</b-form-invalid-feedback>
                     </b-form-group>
 
 
@@ -81,44 +83,42 @@ export default {
         return {
             rolesOption : [],
             form: {
-                name: '',
-                email: '',
+                title: '',
+                description: '',
                 file: ''
             },
             errors: {
-                name: {
+                title: {
                     type: '',
                     message: ''
                 },
-                email: {
+                description: {
                     type: '',
                     message: ''
                 }
             },
-            fields: ['name', 'email'],
+            fileError : {
+                type: '',
+                message: ''
+            },
+            fields: ['title', 'description'],
             alertType: '',
             alertMessage: '',
-            isAlertActive: false
+            isAlertActive: false,
+            attachment: null,
+            data: new FormData(),
+
         };
     },
-    mounted() {
-        this.fetchRoleList();
-    },
     methods: {
-        fetchRoleList() {
-            axios.get("api/roles")
-            .then(response => {
-                this.rolesOption = response.data.map(role => role.name);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        },
         initializeError() {
             this.fields.forEach((field, index) => {
                 this.errors[field].type = ""
                 this.errors[field].message = ""
             })
+        },
+        onFileChange(event) {
+            this.attachment = event.target.files[0];
         },
         onSubmit(evt) {
             evt.preventDefault()
@@ -131,16 +131,27 @@ export default {
                     isError = true;
                 }
             })
-            if (this.form.password !== this.form.cpassword || this.form.cpassword.length <= 0) {
+            if (!this.attachment) {
                 isError = true;
-                this.errors.cpassword.type = "is-danger"
-                this.errors.cpassword.message = 'Confirm Passwords does not match.'
+                fileError.type = 'is-danger'
+                fileError.message = 'Please upload video'
             }
             if(isError) {
                 return false;
             }
 
-            axios.post('api/user/register', {user: this.form}).then(response => {
+            this.data.append('file', this.attachment)
+            this.data.append('title', this.form.title)
+            this.data.append('description', this.form.description)
+
+            var config = {
+                headers: { 'Content-Type': 'multipart/form-data' } ,
+                onUploadProgress: function(progressEvent) {
+                    this.percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+                    this.$forceUpdate();
+                }.bind(this)
+            };
+            axios.post('api/video/upload', this.data, config).then(response => {
                 this.alertType = 'success'
                 this.alertMessage = "User register successfully"
                 this.isAlertActive = true
@@ -163,11 +174,12 @@ export default {
         },
         onReset(evt) {
             evt.preventDefault()
-            this.form.name = ''
-            this.form.email = ''
-            this.form.role = ''
-            this.form.password = ''
-            this.form.cpassword = ''
+            this.form.title = ''
+            this.form.description = ''
+            this.form.file = ''
+            document.getElementById("image").value = ""
+            this.data = new FormData()
+
         }
     }
 };

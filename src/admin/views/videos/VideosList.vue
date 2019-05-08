@@ -1,6 +1,9 @@
 <template>
     <b-row>
         <b-col cols="12" xl="12">
+
+            <video-models ref="videoModelRef" :video="videoLink" :videoTitle="videoTitle" ></video-models>
+
             <transition name="slide">
                 <div>
                     <alert
@@ -31,8 +34,20 @@
                             <template slot="id" slot-scope="data">
                                 <strong>{{data.index+1}}</strong>
                             </template>
-                            <template slot="name" slot-scope="data">
-                                <strong>{{data.item.username}}</strong>
+                            <template slot="title" slot-scope="data">
+                                <strong>{{data.item.title}}</strong>
+                            </template>
+                            <template slot="video" slot-scope="data">
+                                <a href="javascript:void(0)"
+                                @click="loadVideoModel(data.item)">
+                                <b-img-lazy
+                                width="100"
+                                :src="getImageUrl(data.item.thumbnail)"
+                                alt="Image 1"
+                                >
+                                </b-img-lazy>
+                                </a>
+
                             </template>
                             <template slot="created on" slot-scope="data">
                                 <strong>{{data.item.createdAt|moment("dddd, MMMM Do YYYY")}}</strong>
@@ -40,14 +55,14 @@
                             <template slot="action" slot-scope="data">
                                 <b-link
                                     class="btn btn-info btn-square mr-1 btn-sm"
-                                    :to="'users/edit/'+data.item._id"
+                                    :to="'video/edit/'+data.item._id"
                                 >
                                     <i class="fa fa-pencil-square-o"></i>
                                 </b-link>
                                 <b-button
                                     size="sm"
                                     class="btn btn-danger btn-square"
-                                    @click="deleteUser(data.item._id, data.index)"
+                                    @click="deleteVideo(data.item._id, data.index)"
                                 >
                                     <i class="fa fa-trash"></i>
                                 </b-button>
@@ -73,19 +88,21 @@
 
 <script>
 import Alert from "@/components/Alert.component";
+import videoModels from "@/admin/views/videos/videoModel";
 export default {
     name: "videosList",
     components: {
-        Alert
+        Alert,
+        videoModels
     },
     data: () => {
         return {
             items: [],
             fields: [
                 { key: "id" },
-                { key: "name" },
-                { key: "email" },
-                { key: "role" },
+                { key: "title" },
+                { key: "description" },
+                { key: "video" },
                 { key: "created on" },
                 { key: "action" }
             ],
@@ -94,16 +111,18 @@ export default {
             totalRows: 0,
             alertType: "",
             alertMessage: "",
-            isAlertActive: false
+            isAlertActive: false,
+            videoLink: "",
+            videoTitle: ""
         };
     },
     mounted() {
-        this.fetchUsersList();
+        this.fetchVideoList();
     },
     methods: {
-        fetchUsersList() {
+        fetchVideoList() {
             axios
-            .get("api/users")
+            .get("api/videos")
             .then(response => {
                 this.items = response.data;
             })
@@ -111,12 +130,24 @@ export default {
                 console.log(error);
             });
         },
+        getImageUrl(imageId) {
+            return `http://localhost:8000/thumbnail/${imageId}`
+        },
+        loadVideoModel(video) {
+            this.videoLink = `http://localhost:8000/api/videoPlayback/${video._id}`
+            this.videoTitle = video.title
+            this.$refs.videoModelRef.showModel()
+        },
+        resetVideo() {
+            this.videoLink = ''
+            this.videoTitle = ''
+        },
         getRowCount(items) {
             return items.length;
         },
-        deleteUser(id, index) {
-            if (confirm("Are you sure? you want to delete user?")) {
-                axios.delete("api/user/delete/" + id).then(response => {
+        deleteVideo(id, index) {
+            if (confirm("Are you sure? you want to delete Video?")) {
+                axios.delete("api/video/" + id).then(response => {
                     if (response.status) {
                         this.alertType = "success"
                         this.alertMessage = "Deleted Successfully."
