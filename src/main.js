@@ -5,10 +5,11 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App.vue'
 import router from './router'
-
 import "bootstrap-vue/dist/bootstrap-vue.css"
 
 Vue.config.productionTip = true
+Vue.prototype.API_ROOT = 'http://localhost:8000/'
+
 Vue.use(BootstrapVue)
 Vue.use(require('vue-moment'));
 

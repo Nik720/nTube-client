@@ -1,17 +1,19 @@
 <template>
-    <b-col col md="3" sm="4" xs="6" class="video-grid">
+    <b-col cols="6" lg="2" md="3" sm="4" class="video-grid">
         <div class="video">
             <div class="thumbnail">
-                <a href="#">
-                    <b-img fluid src="https://picsum.photos/250/250/?image=53" alt="Image 1"></b-img>
-                </a>
+                <b-link  :to="`/video/${videoDetail._id}/${videoDetail.title}`">
+                    <b-img fluid :src="getImageUrl(videoDetail.thumbnail)" alt="Image 1"></b-img>
+                </b-link >
             </div>
             <div class="caption">
                 <h3>
-                    <a href="#/video/380/high-hopes" class="">High Hopes</a>
+                    <b-link :to="`/video/${videoDetail._id}/${videoDetail.title}`" class="">{{ videoDetail.title }}</b-link >
                 </h3>
                 <p>
-                    <a href="#/channel/239/randy-gil" class="">Randy Gil</a> <br>  7 views • 4 days ago
+                    <a href="#" class="">Randy Gil</a>
+                    <br>
+                    7 views &bull; {{ videoDetail.createdAt | moment("from", "now") }}
                 </p>
             </div>
         </div>
@@ -21,13 +23,16 @@
 <script>
 export default {
     name: 'videoCard',
-    components : {
-
-    },
+    props: ['video-detail'],
     data () {
         return {
 
         }
+    },
+    methods: {
+        getImageUrl(image) {
+            return `${this.API_ROOT}thumbnail/${image}`
+        },
     }
 }
 </script>

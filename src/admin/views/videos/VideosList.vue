@@ -131,10 +131,10 @@ export default {
             });
         },
         getImageUrl(imageId) {
-            return `http://localhost:8000/thumbnail/${imageId}`
+            return `${this.API_ROOT}thumbnail/${imageId}`
         },
         loadVideoModel(video) {
-            this.videoLink = `http://localhost:8000/api/videoPlayback/${video._id}`
+            this.videoLink = `${this.API_ROOT}api/videoPlayback/${video._id}`
             this.videoTitle = video.title
             this.$refs.videoModelRef.showModel()
         },

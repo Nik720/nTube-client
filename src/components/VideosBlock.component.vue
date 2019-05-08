@@ -8,7 +8,7 @@
             >
                 <b-row>
 
-                    <video-card v-for="i of 5" :key="i"></video-card>
+                    <video-card :video-detail="video" v-for="video of videoItems" :key="video.index"></video-card>
 
                 </b-row>
             </b-card>
@@ -23,6 +23,7 @@ export default {
     components : {
         videoCard
     },
+    props: ['videoItems'],
     data () {
         return {
 

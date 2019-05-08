@@ -4,7 +4,7 @@
 
         <b-container class="mt-5 pt-4">
 
-            <video-list-block v-for="i of 2" :key="i" ></video-list-block>
+            <video-list-block :video-items="items"></video-list-block>
 
         </b-container>
     </div>
@@ -21,9 +21,32 @@ export default {
     },
     data () {
         return {
-
+            items: []
         }
     },
+    mounted() {
+        this.fetchVideoList();
+    },
+    methods: {
+        fetchVideoList() {
+            axios
+            .get("api/videos")
+            .then(response => {
+                this.items = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        getImageUrl(imageId) {
+            return `${this.API_ROOT}thumbnail/${imageId}`
+        },
+        loadVideoModel(video) {
+            this.videoLink = `${this.API_ROOT}api/videoPlayback/${video._id}`
+            this.videoTitle = video.title
+            this.$refs.videoModelRef.showModel()
+        }
+    }
 }
 </script>
 

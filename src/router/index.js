@@ -50,6 +50,14 @@ export default new Router({
         requiresAuth: true
       },
     },
+    {
+      path: '/video/:id/:slug',
+      name: 'videos Details',
+      component: Videos,
+      meta: {
+        requiresAuth: true
+      },
+    },
 
     // Admin panel routes
     {
