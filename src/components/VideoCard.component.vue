@@ -1,14 +1,14 @@
 <template>
-    <b-col cols="6" lg="2" md="3" sm="4" class="video-grid">
+    <b-col cols="6" lg="3" md="3" sm="4" class="video-grid">
         <div class="video">
             <div class="thumbnail">
-                <b-link  :to="`/video/${videoDetail._id}/${videoDetail.title}`">
+                <b-link :to="`/video/${videoDetail._id}/${videoDetail.slug}`">
                     <b-img fluid :src="getImageUrl(videoDetail.thumbnail)" alt="Image 1"></b-img>
                 </b-link >
             </div>
             <div class="caption">
                 <h3>
-                    <b-link :to="`/video/${videoDetail._id}/${videoDetail.title}`" class="">{{ videoDetail.title }}</b-link >
+                    <b-link :to="`/video/${videoDetail._id}/${videoDetail.slug}`" class="">{{ videoDetail.title }}</b-link >
                 </h3>
                 <p>
                     <a href="#" class="">Randy Gil</a>
@@ -82,6 +82,9 @@ export default {
                 }
             }
         }
+    }
+    &:hover {
+         box-shadow: 0px 5px 6px #07070712;
     }
 }
 </style>

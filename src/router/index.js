@@ -5,7 +5,10 @@ import Router from 'vue-router'
 const Login = () => import('@/views/Login');
 const SignUp = () => import('@/views/SignUp');
 const Unauthorised = () => import('@/views/401');
+
+const HomeContainer = () => import('@/views/Home');
 const Videos = () => import('@/views/videos');
+const videosDetail = () => import('@/views/VideoDetail');
 
 // Admin panel components
 const DefaultContainer = () => import('@/admin/Layout/Admin');
@@ -28,7 +31,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: Login
     },
@@ -43,20 +46,28 @@ export default new Router({
       component: Unauthorised
     },
     {
-      path: '/videos',
-      name: 'videos',
-      component: Videos,
-      meta: {
-        requiresAuth: true
-      },
-    },
-    {
-      path: '/video/:id/:slug',
-      name: 'videos Details',
-      component: Videos,
-      meta: {
-        requiresAuth: true
-      },
+      path: '/',
+      redirect: '/videos',
+      name: 'Home',
+      component: HomeContainer,
+      children: [
+        {
+          path: 'videos',
+          name: 'videos',
+          component: Videos,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'video/:id/:slug',
+          name: 'video Detail',
+          component: videosDetail,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ]
     },
 
     // Admin panel routes
@@ -153,8 +164,5 @@ export default new Router({
         },
       ]
     },
-
-
-
   ]
 })

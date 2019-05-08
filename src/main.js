@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('nTube.jwt') == null) {
       next({
-        path: '/',
+        path: '/login',
         params: { nextUrl: to.fullPath }
       })
     } else {
@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    if ((to.path == '/' || to.path == '/register') && localStorage.getItem('nTube.jwt') !== null) {
+    if ((to.path == '/login' || to.path == '/register') && localStorage.getItem('nTube.jwt') !== null) {
       if (to.meta.permission && to.meta.permission.toLowerCase() == user.role.toLowerCase()) {
         next({
           path: '/admin/dashboard',
@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
         })
       }
       next({
-        path: '/videos',
+        path: '/',
         params: { nextUrl: to.fullPath }
       })
     }

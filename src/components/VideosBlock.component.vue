@@ -3,13 +3,11 @@
         <b-col md="12">
             <b-card
                 header-bg-variant="transparent"
-                header="Category"
+                header=""
                 class="rounded-0"
             >
                 <b-row>
-
                     <video-card :video-detail="video" v-for="video of videoItems" :key="video.index"></video-card>
-
                 </b-row>
             </b-card>
         </b-col>

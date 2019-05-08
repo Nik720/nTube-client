@@ -7,7 +7,7 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-nav-form class="py-2 navbar-form ml-sm-5">
-                    <b-form-input size="md" class="mr-sm-2 search-box" placeholder="Search"></b-form-input>
+                    <b-form-input size="md" class="search-box" placeholder="Search"></b-form-input>
                     <b-button size="md" class="my-2 my-sm-0 search-button rounded-0" type="submit">
                         <i class="fa fa-search"></i>
                     </b-button>
@@ -50,7 +50,7 @@ export default {
         }
         .search-button {
             background-color: #ffffff;
-            padding: 6px 26px;
+            padding: 7px 26px;
             border-color: #ccc;
             color: #636b6f;
         }
