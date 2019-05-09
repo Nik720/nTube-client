@@ -1,9 +1,9 @@
 <template>
     <b-col cols="6" lg="3" md="3" sm="4" class="video-grid mb-2">
-        <div class="video">
+        <div class="video" :title="videoDetail.title">
             <div class="thumbnail">
                 <b-link :to="`/video/${videoDetail._id}/${videoDetail.slug}`">
-                    <b-img fluid :src="getImageUrl(videoDetail.thumbnail)" alt="Image 1"></b-img>
+                    <b-img fluid :src="getImageUrl(videoDetail.thumbnail)" :alt="videoDetail.title"></b-img>
                 </b-link >
             </div>
             <div class="caption">

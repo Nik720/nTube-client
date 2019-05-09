@@ -1,7 +1,7 @@
 <template>
     <b-navbar toggleable="lg" type="light" variant="light" fixed="top" class="p-0" >
         <b-container>
-            <b-navbar-brand to="/videos">nTube</b-navbar-brand>
+            <b-navbar-brand to="/">nTube</b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 

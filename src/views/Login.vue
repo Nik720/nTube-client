@@ -116,7 +116,7 @@ export default {
                     if(user.role == 'admin') {
                         this.$router.push('/admin/dashboard')
                     } else {
-                        this.$router.push('/videos')
+                        this.$router.push('/')
                     }
                 }
             }).catch(error => {

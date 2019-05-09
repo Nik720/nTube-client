@@ -6,3 +6,11 @@ body {
     font-family: 'Roboto', sans-serif !important;
     font-size: $default_font_size !important;
 }
+
+a {
+    color: #004660;
+    text-decoration: none;
+    &:hover {
+        text-decoration: none;
+    }
+}
