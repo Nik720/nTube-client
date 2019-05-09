@@ -5,6 +5,7 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App.vue'
 import router from './router'
+import VueAnalytics from 'vue-analytics'
 import "bootstrap-vue/dist/bootstrap-vue.css"
 
 Vue.config.productionTip = true
@@ -12,6 +13,18 @@ Vue.prototype.API_ROOT = 'http://localhost:8000/'
 
 Vue.use(BootstrapVue)
 Vue.use(require('vue-moment'));
+
+Vue.use(VueAnalytics, {
+  id: 'UA-139859445-1',
+  router,
+  autoTracking: {
+    skipSamePath: true
+  },
+  debug: {
+    enabled: true,
+    sendHitTask: true
+  }
+})
 
 axios.interceptors.response.use(
   function (response) { return response; },
