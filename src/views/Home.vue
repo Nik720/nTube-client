@@ -1,7 +1,9 @@
 <template>
     <div>
         <c-header></c-header>
-        <router-view ></router-view>
+        <b-container class="mt-5 pt-4">
+            <router-view ></router-view>
+        </b-container>
     </div>
 </template>
 

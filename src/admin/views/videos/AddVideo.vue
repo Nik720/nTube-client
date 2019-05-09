@@ -53,6 +53,7 @@
                             drop-placeholder="Drop file here..."
                             @change="onFileChange"
                             accept="video/*"
+                            id="image"
                         ></b-form-file>
                         <b-form-invalid-feedback :state="true">{{ fileError.message }}</b-form-invalid-feedback>
                     </b-form-group>
@@ -160,7 +161,7 @@ export default {
                     this.alertMessage = ""
                     this.isAlertActive = false
                 }, 3000);
-                this.onReset(evt)
+                this.onReset()
             }).catch(error => {
                 this.alertType = 'danger'
                 this.alertMessage = "errors"
@@ -172,8 +173,7 @@ export default {
                 }, 3000);
             });
         },
-        onReset(evt) {
-            evt.preventDefault()
+        onReset() {
             this.form.title = ''
             this.form.description = ''
             this.form.file = ''

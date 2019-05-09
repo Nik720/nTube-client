@@ -1,5 +1,5 @@
 <template>
-    <b-col cols="6" lg="3" md="3" sm="4" class="video-grid">
+    <b-col cols="6" lg="3" md="3" sm="4" class="video-grid mb-2">
         <div class="video">
             <div class="thumbnail">
                 <b-link :to="`/video/${videoDetail._id}/${videoDetail.slug}`">
@@ -11,8 +11,6 @@
                     <b-link :to="`/video/${videoDetail._id}/${videoDetail.slug}`" class="">{{ videoDetail.title }}</b-link >
                 </h3>
                 <p>
-                    <a href="#" class="">Randy Gil</a>
-                    <br>
                     7 views &bull; {{ videoDetail.createdAt | moment("from", "now") }}
                 </p>
             </div>

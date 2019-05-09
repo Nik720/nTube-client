@@ -1,8 +1,6 @@
 <template>
     <div>
-        <b-container class="mt-5 pt-4">
-            <video-list-block :video-items="items"></video-list-block>
-        </b-container>
+        <video-list-block :video-items="items"></video-list-block>
     </div>
 </template>
 
@@ -31,9 +29,6 @@ export default {
             .catch(error => {
                 console.log(error);
             });
-        },
-        getImageUrl(imageId) {
-            return `${this.API_ROOT}thumbnail/${imageId}`
         }
     }
 }
