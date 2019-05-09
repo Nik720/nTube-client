@@ -10,15 +10,15 @@
                 >
                     <b-row>
                         <b-col cols="12" lg="10" md="9" sm="9">
-                            <h5 class="text-dark m-0">{{ activeVideoDetail[0].title }}</h5>
+                            <h5 class="text-dark m-0">{{ activeVideoDetail.title }}</h5>
                         </b-col>
                         <b-col>
                             <h4 class="m-0">12 Views</h4>
                         </b-col>
                     </b-row>
                     <div class="desc-text">
-                        <p>Publised on {{ activeVideoDetail[0].createdAt|moment('from', 'now') }}</p>
-                        <p class="m-0">{{activeVideoDetail[0].description}}</p>
+                        <p>Publised on {{ activeVideoDetail.createdAt|moment('from', 'now') }}</p>
+                        <p class="m-0">{{activeVideoDetail.description}}</p>
                     </div>
 
                 </b-card>
@@ -52,7 +52,7 @@
             </b-col>
         </b-row>
 
-        <video-list-block :video-items="items"></video-list-block>
+        <video-list-block :video-items="items" v-if="items.length > 0"></video-list-block>
 
     </div>
 </template>
@@ -84,7 +84,7 @@ export default {
             .get("api/videos")
             .then(response => {
                  let videoList = []
-                this.activeVideoDetail = response.data.filter(video =>  video._id == vid )
+                this.activeVideoDetail = response.data.filter(video =>  video._id == vid )[0]
                 videoList = response.data.filter(video =>  video._id != vid )
                 this.mostViewed = videoList.slice(0,6)
                 this.items = videoList.slice(6,videoList.length)
