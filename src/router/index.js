@@ -47,12 +47,11 @@ export default new Router({
     },
     {
       path: '/',
-      redirect: '/videos',
-      name: 'Home',
+      name: 'Videos Home',
       component: HomeContainer,
       children: [
         {
-          path: 'videos',
+          path: '',
           name: 'videos',
           component: Videos,
           meta: {

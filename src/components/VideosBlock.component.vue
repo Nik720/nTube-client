@@ -7,7 +7,14 @@
                 class="rounded-0"
             >
                 <b-row>
-                    <video-card :video-detail="video" v-for="video of videoItems" :key="video.index"></video-card>
+                    <template v-if="videoItems.length > 0">
+                        <video-card :video-detail="video" v-for="video of videoItems" :key="video.index"></video-card>
+                    </template>
+                    <template v-else>
+                        <b-col>
+                            <h4 class="text-center text-muted m-0">Sorry, No videos Available</h4>
+                        </b-col>
+                    </template>
                 </b-row>
             </b-card>
         </b-col>
