@@ -40,7 +40,7 @@
                     <b-button size="sm" class="mr-1 btn-brand" variant="twitter">
                         <i class="fa fa-twitter"></i><span>Twitter</span>
                     </b-button>
-                    <b-button size="sm" class="mr-1 btn-brand" variant="facebook">
+                    <b-button size="sm" class="mr-1 btn-brand" variant="facebook" @click="socialAuthentication('http://localhost:8000/api/auth/facebook')">
                         <i class="fa fa-facebook"></i><span>Facebook</span>
                     </b-button>
                     <b-button size="sm" class="mr-1 btn-brand" variant="google-plus" @click="socialAuthentication('http://localhost:8000/api/auth/google')">

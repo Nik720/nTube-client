@@ -52,18 +52,6 @@
                 <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary login-btn">REGISTER</button>
                 </div>
-                <div class="or-seperator"><i>or signup with</i></div>
-                <div class="text-center social-btn">
-                    <b-button size="sm" class="mr-1 btn-brand" variant="twitter">
-                        <i class="fa fa-twitter"></i><span>Twitter</span>
-                    </b-button>
-                    <b-button size="sm" class="mr-1 btn-brand" variant="facebook">
-                        <i class="fa fa-facebook"></i><span>Facebook</span>
-                    </b-button>
-                    <b-button size="sm" variant="google-plus" class="mr-1 btn-brand">
-                        <i class="fa fa-google-plus"></i><span>Google+</span>
-                    </b-button>
-                </div>
             </b-form>
         </div>
         <p class="text-center text-muted small">Already have an account? <router-link  to="/">Login here!
@@ -142,7 +130,7 @@ export default {
                 this.alertType = 'success'
                 this.alertMessage = "User register successfully"
                 this.isAlertActive = true
-                this.onReset()
+                this.onReset(evt)
             }).catch(error => {
                 this.alertType = 'danger'
                 this.alertMessage = error.response.data.message.error
@@ -167,8 +155,8 @@ export default {
 	}
     .login-form {
     	margin-bottom: 15px;
-        background: #f7f7f7;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        background: #ffffff;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
         padding: 30px;
     }
     .login-form h2 {

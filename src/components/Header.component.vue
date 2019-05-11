@@ -18,7 +18,7 @@
                     <b-nav-item-dropdown right>
                         <template slot="button-content"><i class="fa fa-user"></i></template>
                         <b-dropdown-item href="#">Account</b-dropdown-item>
-                        <b-dropdown-item href="#">Logout</b-dropdown-item>
+                        <b-dropdown-item href="javascript:void(0)" @click="logout()">Logout</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
@@ -28,7 +28,20 @@
 
 <script>
 export default {
-    name: 'cHeader'
+    name: 'cHeader',
+    data: () => {
+        return {
+            logout() {
+                localStorage.removeItem('nTube.jwt')
+                localStorage.removeItem('nTube.user')
+                this.$router.replace('/login')
+            }
+        }
+    },
+    mounted() {
+    },
+    methods: {
+    }
 }
 </script>
 
