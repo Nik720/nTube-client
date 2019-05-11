@@ -43,9 +43,9 @@
                     <b-button size="sm" class="mr-1 btn-brand" variant="facebook">
                         <i class="fa fa-facebook"></i><span>Facebook</span>
                     </b-button>
-                    <b-button size="sm" variant="google-plus" class="mr-1 btn-brand">
+                    <b-link href="http://localhost:8000/api/auth/google" size="sm" variant="google-plus" class="mr-1 btn-brand">
                         <i class="fa fa-google-plus"></i><span>Google+</span>
-                    </b-button>
+                    </b-link>
                 </div>
             </b-form>
         </div>
