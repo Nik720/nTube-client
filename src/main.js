@@ -21,7 +21,7 @@ Vue.use(VueAnalytics, {
     skipSamePath: true
   },
   debug: {
-    enabled: true,
+    enabled: false,
     sendHitTask: true
   }
 })

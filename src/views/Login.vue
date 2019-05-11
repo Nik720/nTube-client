@@ -43,9 +43,9 @@
                     <b-button size="sm" class="mr-1 btn-brand" variant="facebook">
                         <i class="fa fa-facebook"></i><span>Facebook</span>
                     </b-button>
-                    <b-link href="http://localhost:8000/api/auth/google" size="sm" variant="google-plus" class="mr-1 btn-brand">
+                    <b-button size="sm" class="mr-1 btn-brand" variant="google-plus" @click="socialAuthentication('http://localhost:8000/api/auth/google')">
                         <i class="fa fa-google-plus"></i><span>Google+</span>
-                    </b-link>
+                    </b-button>
                 </div>
             </b-form>
         </div>
@@ -129,6 +129,9 @@ export default {
             evt.preventDefault()
             this.form.email = ''
             this.form.password = ''
+        },
+        socialAuthentication(authURL) {
+            window.location.href = authURL;
         }
     }
 }
@@ -141,8 +144,8 @@ export default {
 	}
     .login-form {
     	margin-bottom: 15px;
-        background: #f7f7f7;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        background: #ffffff;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
         padding: 30px;
     }
     .login-form .form-control {

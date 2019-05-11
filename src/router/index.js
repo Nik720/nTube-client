@@ -36,6 +36,18 @@ export default new Router({
       component: Login
     },
     {
+      path: '/auth/success',
+      beforeEnter: (to, from, next) => {
+        if(to.query.clientToken) {
+          let token = to.query.clientToken
+          localStorage.setItem('nTube.jwt', token)
+          if (localStorage.getItem('nTube.jwt') != null) {
+            next('/')
+          }
+        }
+      }
+    },
+    {
       path: '/register',
       name: 'register',
       component: SignUp
