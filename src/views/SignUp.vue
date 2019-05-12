@@ -110,7 +110,7 @@ export default {
             evt.preventDefault()
             this.initializeError()
             var isError = false;
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 if(this.form[field] == "") {
                     this.errors[field].type = "is-danger"
                     this.errors[field].message = field+' should not empty.'
@@ -127,13 +127,19 @@ export default {
             }
 
             axios.post('api/user/register', {user: this.form}).then(response => {
-                this.alertType = 'success'
-                this.alertMessage = "User register successfully"
-                this.isAlertActive = true
-                this.onReset(evt)
+                if(response.status == 200) {
+                    this.alertType = 'success'
+                    this.alertMessage = "User register successfully"
+                    this.isAlertActive = true
+                    this.onReset(evt)
+                } else {
+                    this.alertType = 'danger'
+                    this.alertMessage = response.response.data.errors.message
+                    this.isAlertActive = true
+                }
             }).catch(error => {
                 this.alertType = 'danger'
-                this.alertMessage = error.response.data.message.error
+                this.alertMessage = error.response.statusText
                 this.isAlertActive = true
             });
         },

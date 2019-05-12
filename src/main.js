@@ -35,6 +35,7 @@ axios.interceptors.response.use(
         window.location.href = '/unauthorized';
       }
     }
+    return error;
   }
 );
 
