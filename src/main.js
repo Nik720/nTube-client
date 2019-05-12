@@ -26,18 +26,18 @@ Vue.use(VueAnalytics, {
   }
 })
 
-axios.interceptors.response.use(
-  function (response) { return response; },
-  function (error) {
-    if (error.response) {
-      if(error.response.status == 401) {
-        alert(error.response.data.message);
-        window.location.href = '/unauthorized';
-      }
-    }
-    return error;
+// intercept the global error
+axios.interceptors.response.use((response) => {
+  return response
+}, function (error) {
+  if (error.response.status === 404 && !originalRequest._retry) {
+    alert(error.response.data.message);
+    window.location.href = '/unauthorized'
+    return
   }
-);
+  // Do something with response error
+  return Promise.reject(error)
+})
 
 router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem('nTube.user'))

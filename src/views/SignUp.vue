@@ -101,7 +101,7 @@ export default {
     },
     methods: {
         initializeError() {
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 this.errors[field].type = ""
                 this.errors[field].message = ""
             })
@@ -127,19 +127,15 @@ export default {
             }
 
             axios.post('api/user/register', {user: this.form}).then(response => {
-                if(response.status == 200) {
+                if(response.status) {
                     this.alertType = 'success'
                     this.alertMessage = "User register successfully"
                     this.isAlertActive = true
                     this.onReset(evt)
-                } else {
-                    this.alertType = 'danger'
-                    this.alertMessage = response.response.data.errors.message
-                    this.isAlertActive = true
                 }
             }).catch(error => {
                 this.alertType = 'danger'
-                this.alertMessage = error.response.statusText
+                this.alertMessage = error.response.data.errors.message
                 this.isAlertActive = true
             });
         },
