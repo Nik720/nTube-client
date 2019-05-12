@@ -37,7 +37,7 @@
                 </div>
                 <div class="or-seperator"><i>or signup with</i></div>
                 <div class="text-center social-btn">
-                    <b-button size="sm" class="mr-1 btn-brand" variant="twitter">
+                    <b-button size="sm" class="mr-1 btn-brand" variant="twitter" @click="socialAuthentication('http://localhost:8000/api/auth/twitter')">
                         <i class="fa fa-twitter"></i><span>Twitter</span>
                     </b-button>
                     <b-button size="sm" class="mr-1 btn-brand" variant="facebook" @click="socialAuthentication('http://localhost:8000/api/auth/facebook')">
