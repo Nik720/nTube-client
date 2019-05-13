@@ -49,6 +49,9 @@
                                 </a>
 
                             </template>
+                            <template slot="Posted By" slot-scope="data">
+                                <strong>{{ data.item.postedBy ? data.item.postedBy.username : '' }}</strong>
+                            </template>
                             <template slot="created on" slot-scope="data">
                                 <strong>{{data.item.createdAt|moment("dddd, MMMM Do YYYY")}}</strong>
                             </template>
@@ -103,6 +106,7 @@ export default {
                 { key: "title" },
                 { key: "description" },
                 { key: "video" },
+                { key: "Posted By" },
                 { key: "created on" },
                 { key: "action" }
             ],
