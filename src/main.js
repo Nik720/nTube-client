@@ -15,7 +15,7 @@ Vue.use(BootstrapVue)
 Vue.use(require('vue-moment'));
 
 Vue.use(VueAnalytics, {
-  id: 'UA-139859445-1',
+  id: 'UA-140016545-1',
   router,
   autoTracking: {
     skipSamePath: true
