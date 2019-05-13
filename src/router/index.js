@@ -19,6 +19,11 @@ const Users = () => import('@/admin/views/users/Users');
 const createUser = () => import('@/admin/views/users/CreateUser');
 const editUser = () => import('@/admin/views/users/EditUser');
 
+// Roles Components
+const Roles = () => import('@/admin/views/roles/RolesList');
+const createRole = () => import('@/admin/views/roles/AddRole');
+const editRole = () => import('@/admin/views/roles/EditRole');
+
 // Users Components
 const videosList = () => import('@/admin/views/videos/VideosList');
 const createVideo = () => import('@/admin/views/videos/AddVideo');
@@ -96,6 +101,44 @@ export default new Router({
             requiresAuth: true,
             permission: 'admin'
           },
+        },
+        {
+          path: '/admin/roles',
+          meta: { label: 'Roles'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: Roles,
+              meta: {
+                requiresAuth: true,
+                permission: 'admin'
+              },
+            },
+            {
+              path: 'create',
+              name: 'Create Role',
+              component: createRole,
+              meta: {
+                label: 'Create Role',
+                requiresAuth: true,
+                permission: 'admin'
+              }
+            },
+            {
+              path: 'edit/:id',
+              name: 'Edit Role',
+              component: editRole,
+              meta: {
+                label: 'Edit Role',
+                requiresAuth: true,
+                permission: 'admin'
+              }
+            }
+
+          ]
         },
         {
           path: '/admin/users',

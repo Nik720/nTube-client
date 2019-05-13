@@ -12,11 +12,11 @@
                         <b-link
                             variant="link"
                             class="btn btn-primary btn-square float-right"
-                            to="users/create"
-                        >Add User</b-link>
+                            to="roles/create"
+                        >Add Role</b-link>
                     </div>
 
-                    <b-card :header="'Users'">
+                    <b-card :header="'Roles List'">
                         <b-table
                             :hover="true"
                             :striped="true"
@@ -32,22 +32,22 @@
                                 <strong>{{data.index+1}}</strong>
                             </template>
                             <template slot="name" slot-scope="data">
-                                <strong>{{data.item.username}}</strong>
+                                <strong>{{data.item.name}}</strong>
                             </template>
                             <template slot="created on" slot-scope="data">
                                 <strong>{{data.item.createdAt|moment("dddd, MMMM Do YYYY")}}</strong>
                             </template>
-                            <template slot="action" slot-scope="data">
+                            <template slot="action" slot-scope="data" v-if="data.item.name !== 'Admin' && data.item.name !== 'Public' ">
                                 <b-link
                                     class="btn btn-info btn-square mr-1 btn-sm"
-                                    :to="'users/edit/'+data.item._id"
+                                    :to="'roles/edit/'+data.item._id"
                                 >
                                     <i class="fa fa-pencil-square-o"></i>
                                 </b-link>
                                 <b-button
                                     size="sm"
                                     class="btn btn-danger btn-square"
-                                    @click="deleteUser(data.item._id, data.index)"
+                                    @click="deleteRole(data.item._id, data.index)"
                                 >
                                     <i class="fa fa-trash"></i>
                                 </b-button>
@@ -74,7 +74,7 @@
 <script>
 import Alert from "@/components/Alert.component";
 export default {
-    name: "Users",
+    name: "Roles",
     components: {
         Alert
     },
@@ -84,8 +84,6 @@ export default {
             fields: [
                 { key: "id" },
                 { key: "name" },
-                { key: "email" },
-                { key: "role" },
                 { key: "created on" },
                 { key: "action" }
             ],
@@ -103,7 +101,7 @@ export default {
     methods: {
         fetchUsersList() {
             axios
-            .get("api/users")
+            .get("api/roles")
             .then(response => {
                 this.items = response.data;
             })
@@ -114,9 +112,9 @@ export default {
         getRowCount(items) {
             return items.length;
         },
-        deleteUser(id, index) {
-            if (confirm("Are you sure? you want to delete user?")) {
-                axios.delete("api/user/" + id).then(response => {
+        deleteRole(id, index) {
+            if (confirm("Are you sure? you want to delete role?")) {
+                axios.delete("api/roles/" + id).then(response => {
                     if (response.status) {
                         this.alertType = "success"
                         this.alertMessage = "Deleted Successfully."

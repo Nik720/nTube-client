@@ -6,6 +6,11 @@ export default {
         icon: 'fa fa-dashboard'
       },
       {
+        name: 'Manage Roles',
+        url: '/admin/roles',
+        icon: 'fa fa-tasks'
+      },
+      {
         name: 'Manage Users',
         url: '/admin/users',
         icon: 'fa fa-users'
