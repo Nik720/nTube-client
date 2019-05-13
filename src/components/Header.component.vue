@@ -17,7 +17,7 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown right>
                         <template slot="button-content"><i class="fa fa-user"></i></template>
-                        <b-dropdown-item href="#">Account</b-dropdown-item>
+                        <b-dropdown-item href="#">Hi {{ getUsername }}</b-dropdown-item>
                         <b-dropdown-item href="javascript:void(0)" @click="logout()">Logout</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
@@ -31,16 +31,40 @@ export default {
     name: 'cHeader',
     data: () => {
         return {
-            logout() {
-                localStorage.removeItem('nTube.jwt')
-                localStorage.removeItem('nTube.user')
-                this.$router.replace('/login')
+            username: ''
+        }
+    },
+    computed: {
+        getUsername() {
+            if (localStorage.getItem('nTube.user')  != null) {
+                let user = localStorage.getItem('nTube.user');
+                user = JSON.parse(localStorage.getItem('nTube.user'));
+                return user.username;
             }
         }
     },
     mounted() {
+        if (localStorage.getItem('nTube.user') == null) {
+            this.fetchUserDetail();
+        }
     },
     methods: {
+        fetchUserDetail() {
+            axios.get(`api/activeUser`)
+            .then(response => {
+                let user = response.data
+                this.username = user.username
+                localStorage.setItem('nTube.user', JSON.stringify(user))
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        logout() {
+            localStorage.removeItem('nTube.jwt')
+            localStorage.removeItem('nTube.user')
+            this.$router.replace('/login')
+        }
     }
 }
 </script>

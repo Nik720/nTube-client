@@ -18,6 +18,7 @@ export default {
     },
     mounted() {
         this.fetchVideoList();
+        document.title = "nTube video house"
     },
     methods: {
         fetchVideoList() {

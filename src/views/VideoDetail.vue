@@ -83,11 +83,12 @@ export default {
             axios
             .get("api/videos")
             .then(response => {
-                 let videoList = []
+                let videoList = []
                 this.activeVideoDetail = response.data.filter(video =>  video._id == vid )[0]
                 videoList = response.data.filter(video =>  video._id != vid )
                 this.mostViewed = videoList.slice(0,6)
                 this.items = videoList.slice(6,videoList.length)
+                document.title = this.activeVideoDetail.title
             })
             .catch(error => {
                 console.log(error);
