@@ -1,5 +1,5 @@
 <template>
-    <b-col cols="6" lg="3" md="3" sm="4" class="video-grid mb-2">
+    <b-col cols="6" lg="2" md="4" sm="4" class="video-grid mb-2">
         <div class="video" :title="videoDetail.title">
             <div class="thumbnail">
                 <b-link :to="`/video/${videoDetail._id}/${videoDetail.slug}`">
