@@ -40,24 +40,6 @@
                         <b-form-invalid-feedback :state="true">{{ errors.description.message }}</b-form-invalid-feedback>
                     </b-form-group>
 
-                    <b-form-group
-                        label="Video"
-                        label-for="file"
-                        :label-cols="3"
-                        :horizontal="true"
-                    >
-                        <b-form-file
-                            v-model="form.file"
-                            :state="Boolean(form.file)"
-                            placeholder="Choose a file..."
-                            drop-placeholder="Drop file here..."
-                            @change="onFileChange"
-                            accept="video/*"
-                        ></b-form-file>
-                        <b-form-invalid-feedback :state="true">{{ fileError.message }}</b-form-invalid-feedback>
-                    </b-form-group>
-
-
                     <div slot="footer" class="text-center">
                         <b-button type="submit" size="sm" variant="primary" class="mr-2">
                             <i class="fa fa-dot-circle-o"></i> Submit
@@ -84,8 +66,7 @@ export default {
             rolesOption : [],
             form: {
                 title: '',
-                description: '',
-                file: ''
+                description: ''
             },
             errors: {
                 title: {
@@ -97,28 +78,36 @@ export default {
                     message: ''
                 }
             },
-            fileError : {
-                type: '',
-                message: ''
-            },
             fields: ['title', 'description'],
             alertType: '',
             alertMessage: '',
             isAlertActive: false,
-            attachment: null,
-            data: new FormData(),
+            attachment: null
 
         };
     },
+    mounted() {
+        if(this.$route.params.id) {
+            this.getVideoDetails(this.$route.params.id);
+        }
+    },
     methods: {
+        getVideoDetails(id) {
+            axios.get(`api/video/${id}`)
+            .then(response => {
+                let video = response.data
+                this.form.title = video.title
+                this.form.description = video.description
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
         initializeError() {
             this.fields.forEach((field, index) => {
                 this.errors[field].type = ""
                 this.errors[field].message = ""
             })
-        },
-        onFileChange(event) {
-            this.attachment = event.target.files[0];
         },
         onSubmit(evt) {
             evt.preventDefault()
@@ -131,29 +120,19 @@ export default {
                     isError = true;
                 }
             })
-            if (!this.attachment) {
-                isError = true;
-                fileError.type = 'is-danger'
-                fileError.message = 'Please upload video'
-            }
+
             if(isError) {
                 return false;
             }
 
-            this.data.append('file', this.attachment)
-            this.data.append('title', this.form.title)
-            this.data.append('description', this.form.description)
+            let video = {
+                title: this.form.title,
+                description: this.form.description
+            }
 
-            var config = {
-                headers: { 'Content-Type': 'multipart/form-data' } ,
-                onUploadProgress: function(progressEvent) {
-                    this.percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
-                    this.$forceUpdate();
-                }.bind(this)
-            };
-            axios.post('api/video/upload', this.data, config).then(response => {
+            axios.put(`api/video/${this.$route.params.id}`, video).then(response => {
                 this.alertType = 'success'
-                this.alertMessage = "User register successfully"
+                this.alertMessage = "Video Updated successfully"
                 this.isAlertActive = true
                 setTimeout(() => {
                     this.alertType = ""
@@ -163,7 +142,7 @@ export default {
                 this.onReset(evt)
             }).catch(error => {
                 this.alertType = 'danger'
-                this.alertMessage = "errors"
+                this.alertMessage = ""
                 this.isAlertActive = true
                 setTimeout(() => {
                     this.alertType = ""
@@ -176,10 +155,6 @@ export default {
             evt.preventDefault()
             this.form.title = ''
             this.form.description = ''
-            this.form.file = ''
-            document.getElementById("image").value = ""
-            this.data = new FormData()
-
         }
     }
 };

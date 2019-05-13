@@ -58,7 +58,7 @@
                             <template slot="action" slot-scope="data">
                                 <b-link
                                     class="btn btn-info btn-square mr-1 btn-sm"
-                                    :to="'video/edit/'+data.item._id"
+                                    :to="'videos/edit/'+data.item._id"
                                 >
                                     <i class="fa fa-pencil-square-o"></i>
                                 </b-link>
