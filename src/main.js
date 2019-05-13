@@ -30,7 +30,7 @@ Vue.use(VueAnalytics, {
 axios.interceptors.response.use((response) => {
   return response
 }, function (error) {
-  if (error.response.status === 404 && !originalRequest._retry) {
+  if (error.response.status === 404) {
     alert(error.response.data.message);
     window.location.href = '/unauthorized'
     return

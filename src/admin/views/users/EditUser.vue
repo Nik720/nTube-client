@@ -35,6 +35,7 @@
                             type="email"
                             placeholder="email"
                             :class="errors.email.type !== '' ? 'is-invalid' : '' "
+                            disabled
                         ></b-form-input>
                         <b-form-invalid-feedback :state="true">{{ errors.email.message }}</b-form-invalid-feedback>
                     </b-form-group>
@@ -203,17 +204,17 @@ export default {
                     this.alertType = ""
                     this.alertMessage = ""
                     this.isAlertActive = false
-                }, 3000);
+                }, 5000);
                 this.onReset(evt)
             }).catch(error => {
                 this.alertType = 'danger'
-                this.alertMessage = "errors"
+                this.alertMessage = error.response.data.message
                 this.isAlertActive = true
                 setTimeout(() => {
                     this.alertType = ""
                     this.alertMessage = ""
                     this.isAlertActive = false
-                }, 3000);
+                }, 5000);
             });
         },
         onReset(evt) {
