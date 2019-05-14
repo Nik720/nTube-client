@@ -2,6 +2,7 @@
     <b-row class="justify-content-md-center">
         <b-col md="8" sm="10" xs="12" md-pull-left="2">
             <alert :alert-message="alertMessage" :alert-type="alertType" v-if="isAlertActive"></alert>
+            <loader :loaderShow="showLoader"></loader>
             <b-card>
                 <div slot="header">
                     <strong>Add Video Details</strong>
@@ -75,10 +76,12 @@
 
 <script>
 import Alert from '@/components/Alert.component'
+import Loader from '@/admin/components/PageLoader'
 export default {
     name: "createVideo",
     components: {
-        Alert
+        Alert,
+        Loader
     },
     data: () => {
         return {
@@ -108,6 +111,7 @@ export default {
             isAlertActive: false,
             attachment: null,
             data: new FormData(),
+            showLoader: false
 
         };
     },
@@ -145,13 +149,11 @@ export default {
             this.data.append('title', this.form.title)
             this.data.append('description', this.form.description)
 
+
             var config = {
-                headers: { 'Content-Type': 'multipart/form-data' } ,
-                onUploadProgress: function(progressEvent) {
-                    this.percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
-                    this.$forceUpdate();
-                }.bind(this)
+                headers: { 'Content-Type': 'multipart/form-data' }
             };
+            this.showLoader = true
             axios.post('api/video/upload', this.data, config).then(response => {
                 this.alertType = 'success'
                 this.alertMessage = "User register successfully"
@@ -162,6 +164,7 @@ export default {
                     this.isAlertActive = false
                 }, 3000);
                 this.onReset()
+                this.showLoader = false
             }).catch(error => {
                 this.alertType = 'danger'
                 this.alertMessage = "errors"
@@ -171,6 +174,7 @@ export default {
                     this.alertMessage = ""
                     this.isAlertActive = false
                 }, 3000);
+                this.showLoader = false
             });
         },
         onReset() {

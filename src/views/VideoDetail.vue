@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-row>
-            <b-col cols="12" lg="8" md="7" sm="12">
+            <b-col cols="12"  sm="12" md="12" lg="8">
                 <Media :kind="'video'" :src="activeVideo" autoPlay   controls  id="videoPlayer" />
                 <b-card
                     header-bg-variant="transparent"
@@ -23,7 +23,7 @@
 
                 </b-card>
             </b-col>
-            <b-col cols="12" lg="4" md="5" sm="12">
+            <b-col cols="12" lg="4" md="12" sm="12">
                 <b-card
                     header-bg-variant="transparent"
                     header=""
@@ -83,6 +83,7 @@ export default {
             axios
             .get("api/videos")
             .then(response => {
+                //let docWidth = document.width
                 let videoList = []
                 this.activeVideoDetail = response.data.filter(video =>  video._id == vid )[0]
                 videoList = response.data.filter(video =>  video._id != vid )
