@@ -1,5 +1,6 @@
 <template>
     <b-row>
+        <loader :loaderShow="showLoader"></loader>
         <b-col cols="12" lg="6" md="6" sm="6">
             <transition name="slide">
                 <div class="animated fadeIn">
@@ -29,16 +30,19 @@
 <script>
 import LineChart from '@/admin/components/LineChart'
 import BarChart from '@/admin/components/BarChart'
+import Loader from '@/admin/components/PageLoader'
 
 export default {
     name: 'dashboard',
     components: {
       LineChart,
-      BarChart
+      BarChart,
+      Loader
     },
     data () {
       return {
         loaded: false,
+        showLoader: false,
         dataCollectionLineChart: null,
         dataCollectionBarChart: null,
         LineChartOptions: {
@@ -75,6 +79,7 @@ export default {
     },
     methods: {
         fetchChartData() {
+            this.showLoader = true
             axios.get("api/reports")
             .then(response => {
                 this.dataCollectionLineChart = {
@@ -87,6 +92,7 @@ export default {
                     datasets: response.data.pageViewByweek.datasets
                 }
                 this.loaded = true
+                this.showLoader = false
             })
             .catch(error => {
                 console.log(error);
