@@ -2,6 +2,7 @@
     <b-row class="justify-content-md-center">
         <b-col md="8" sm="10" xs="12" md-pull-left="2">
             <alert :alert-message="alertMessage" :alert-type="alertType" v-if="isAlertActive"></alert>
+            <loader :loaderShow="showLoader"></loader>
             <b-card>
                 <div slot="header">
                     <strong>Create User</strong>
@@ -98,10 +99,12 @@
 
 <script>
 import Alert from '@/components/Alert.component'
+import Loader from '@/admin/components/PageLoader'
 export default {
     name: "createUser",
     components: {
-        Alert
+        Alert,
+        Loader
     },
     data: () => {
         return {
@@ -138,7 +141,8 @@ export default {
             fields: ['name', 'email', 'role', 'password','cpassword'],
             alertType: '',
             alertMessage: '',
-            isAlertActive: false
+            isAlertActive: false,
+            showLoader: false
         };
     },
     mounted() {
@@ -146,9 +150,11 @@ export default {
     },
     methods: {
         fetchRoleList() {
+            this.showLoader = true
             axios.get("api/roles")
             .then(response => {
                 this.rolesOption = response.data.map(role => role.name);
+                this.showLoader = false
             })
             .catch(error => {
                 console.log(error);
@@ -180,6 +186,7 @@ export default {
                 return false;
             }
 
+            this.showLoader = true
             axios.post('api/user/register', {user: this.form}).then(response => {
                 this.alertType = 'success'
                 this.alertMessage = "User register successfully"
@@ -190,6 +197,7 @@ export default {
                     this.isAlertActive = false
                 }, 3000);
                 this.onReset(evt)
+                this.showLoader = false
             }).catch(error => {
                 this.alertType = 'danger'
                 this.alertMessage = "errors"
@@ -199,6 +207,7 @@ export default {
                     this.alertMessage = ""
                     this.isAlertActive = false
                 }, 3000);
+                this.showLoader = false
             });
         },
         onReset(evt) {

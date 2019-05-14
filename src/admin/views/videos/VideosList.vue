@@ -2,6 +2,7 @@
     <b-row>
         <b-col cols="12" xl="12">
 
+            <loader :loaderShow="showLoader"></loader>
             <video-models ref="videoModelRef" :video="videoLink" :videoTitle="videoTitle" ></video-models>
 
             <transition name="slide">
@@ -90,13 +91,15 @@
 </template>
 
 <script>
-import Alert from "@/components/Alert.component";
-import videoModels from "@/admin/views/videos/videoModel";
+import Alert from "@/components/Alert.component"
+import videoModels from "@/admin/views/videos/videoModel"
+import Loader from '@/admin/components/PageLoader'
 export default {
     name: "videosList",
     components: {
         Alert,
-        videoModels
+        videoModels,
+        Loader
     },
     data: () => {
         return {
@@ -117,7 +120,8 @@ export default {
             alertMessage: "",
             isAlertActive: false,
             videoLink: "",
-            videoTitle: ""
+            videoTitle: "",
+            showLoader: false
         };
     },
     mounted() {
@@ -125,10 +129,12 @@ export default {
     },
     methods: {
         fetchVideoList() {
+            this.showLoader = true
             axios
             .get("api/videos")
             .then(response => {
                 this.items = response.data;
+                this.showLoader = false
             })
             .catch(error => {
                 console.log(error);
