@@ -23,7 +23,7 @@
 
                 </b-card>
             </b-col>
-            <b-col cols="12" lg="4" md="12" sm="12">
+            <b-col cols="12" lg="4" md="12" sm="12" v-if="mostViewed.length > 0">
                 <b-card
                     header-bg-variant="transparent"
                     header=""
@@ -83,12 +83,16 @@ export default {
             axios
             .get("api/videos")
             .then(response => {
-                //let docWidth = document.width
+                let docWidth = window.innerWidth
                 let videoList = []
                 this.activeVideoDetail = response.data.filter(video =>  video._id == vid )[0]
                 videoList = response.data.filter(video =>  video._id != vid )
-                this.mostViewed = videoList.slice(0,6)
-                this.items = videoList.slice(6,videoList.length)
+                if(docWidth > 990 ) {
+                    this.mostViewed = videoList.slice(0,6)
+                    this.items = videoList.slice(6,videoList.length)
+                } else {
+                     this.items = videoList
+                }
                 document.title = this.activeVideoDetail.title
             })
             .catch(error => {
@@ -115,12 +119,18 @@ export default {
 #videoPlayer{
     width: 100%;
     height: 410px;
+    @media (max-width: 1200px ) {
+       height: 350px;
+    }
 }
 .media-video {
     .thumbnail {
         width: 120px;
         float: left;
         margin-right: 10px;
+        @media (max-width: 1200px ) {
+            width: 100px ;
+        }
     }
     .caption {
         float: left;
@@ -138,6 +148,9 @@ export default {
         }
         p {
             font-size: 12px;
+        }
+        @media (max-width: 1200px ) {
+            width: 137px ;
         }
     }
     clear: both;
