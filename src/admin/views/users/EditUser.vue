@@ -171,7 +171,7 @@ export default {
             });
         },
         initializeError() {
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 this.errors[field].type = ""
                 this.errors[field].message = ""
             })
@@ -180,7 +180,7 @@ export default {
             evt.preventDefault()
             this.initializeError()
             var isError = false;
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 if(this.form[field] == "") {
                     this.errors[field].type = "is-danger"
                     this.errors[field].message = field+' should not empty.'
@@ -197,16 +197,18 @@ export default {
             }
 
             axios.put(`api/user/${this.$route.params.id}`, {user: this.form}).then(response => {
-                this.alertType = 'success'
-                this.alertMessage = "User updated successfully"
-                this.isAlertActive = true
-                setTimeout(() => {
-                    this.alertType = ""
-                    this.alertMessage = ""
-                    this.isAlertActive = false
-                }, 5000);
+                if(response.status) {
+                    this.alertType = 'success'
+                    this.alertMessage = "User updated successfully"
+                    this.isAlertActive = true
+                    setTimeout(() => {
+                        this.alertType = ""
+                        this.alertMessage = ""
+                        this.isAlertActive = false
+                    }, 5000);
+                }
                 this.onReset(evt)
-            }).catch(error => {
+            }).catch(() => {
                 this.alertType = 'danger'
                 this.alertMessage = error.response.data.message
                 this.isAlertActive = true

@@ -120,7 +120,7 @@ export default {
     },
     methods: {
         initializeError() {
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 this.errors[field].type = ""
                 this.errors[field].message = ""
             })
@@ -140,7 +140,7 @@ export default {
             evt.preventDefault()
             this.initializeError()
             var isError = false;
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 if(this.form[field] == "") {
                     this.errors[field].type = "is-danger"
                     this.errors[field].message = field+' should not empty.'
@@ -167,17 +167,19 @@ export default {
             };
             this.showLoader = true
             axios.post('api/video/upload', this.data, config).then(response => {
-                this.alertType = 'success'
-                this.alertMessage = "User register successfully"
-                this.isAlertActive = true
-                setTimeout(() => {
-                    this.alertType = ""
-                    this.alertMessage = ""
-                    this.isAlertActive = false
-                }, 3000);
+                if(response.status) {
+                    this.alertType = 'success'
+                    this.alertMessage = "User register successfully"
+                    this.isAlertActive = true
+                    setTimeout(() => {
+                        this.alertType = ""
+                        this.alertMessage = ""
+                        this.isAlertActive = false
+                    }, 3000);
+                }
                 this.onReset()
                 this.showLoader = false
-            }).catch(error => {
+            }).catch(() => {
                 this.alertType = 'danger'
                 this.alertMessage = "Problem with file upload, make sure file size is less than 100 MB"
                 this.isAlertActive = true

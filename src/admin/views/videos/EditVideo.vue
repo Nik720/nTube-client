@@ -104,7 +104,7 @@ export default {
             });
         },
         initializeError() {
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 this.errors[field].type = ""
                 this.errors[field].message = ""
             })
@@ -113,7 +113,7 @@ export default {
             evt.preventDefault()
             this.initializeError()
             var isError = false;
-            this.fields.forEach((field, index) => {
+            this.fields.forEach(field => {
                 if(this.form[field] == "") {
                     this.errors[field].type = "is-danger"
                     this.errors[field].message = field+' should not empty.'
@@ -131,16 +131,18 @@ export default {
             }
 
             axios.put(`api/video/${this.$route.params.id}`, video).then(response => {
-                this.alertType = 'success'
-                this.alertMessage = "Video Updated successfully"
-                this.isAlertActive = true
-                setTimeout(() => {
-                    this.alertType = ""
-                    this.alertMessage = ""
-                    this.isAlertActive = false
-                }, 3000);
+                if(response.status) {
+                    this.alertType = 'success'
+                    this.alertMessage = "Video Updated successfully"
+                    this.isAlertActive = true
+                    setTimeout(() => {
+                        this.alertType = ""
+                        this.alertMessage = ""
+                        this.isAlertActive = false
+                    }, 3000);
+                }
                 this.onReset(evt)
-            }).catch(error => {
+            }).catch(() => {
                 this.alertType = 'danger'
                 this.alertMessage = ""
                 this.isAlertActive = true
