@@ -51,12 +51,14 @@
                             v-model="form.file"
                             :state="Boolean(form.file)"
                             placeholder="Choose a file..."
-                            drop-placeholder="Drop file here..."
                             @change="onFileChange"
                             accept="video/*"
                             id="image"
+                            no-drop
+                            :class="fileError.type !== '' ? 'is-invalid' : '' "
                         ></b-form-file>
-                        <b-form-invalid-feedback :state="true">{{ fileError.message }}</b-form-invalid-feedback>
+                        <b-form-text id="image-help">File size shold be less than 100 MB.</b-form-text>
+                        <small class="text-danger" v-show="fileError.status">{{ fileError.message }}</small>
                     </b-form-group>
 
 
@@ -102,6 +104,7 @@ export default {
                 }
             },
             fileError : {
+                status: false,
                 type: '',
                 message: ''
             },
@@ -124,6 +127,14 @@ export default {
         },
         onFileChange(event) {
             this.attachment = event.target.files[0];
+            if (this.attachment.size > 100 * 1024 * 1024) {
+                this.attachment = ""
+                this.fileError.status = true
+                this.fileError.type = 'is-danger'
+                this.fileError.message = 'File size should not more than 100 MB'
+                document.getElementById("image").value = ""
+                return false;
+            }
         },
         onSubmit(evt) {
             evt.preventDefault()
@@ -138,8 +149,9 @@ export default {
             })
             if (!this.attachment) {
                 isError = true;
-                fileError.type = 'is-danger'
-                fileError.message = 'Please upload video'
+                this.fileError.status = true
+                this.fileError.type = 'is-danger'
+                this.fileError.message = 'Please upload video'
             }
             if(isError) {
                 return false;
@@ -167,13 +179,14 @@ export default {
                 this.showLoader = false
             }).catch(error => {
                 this.alertType = 'danger'
-                this.alertMessage = "errors"
+                this.alertMessage = "Problem with file upload, make sure file size is less than 100 MB"
                 this.isAlertActive = true
                 setTimeout(() => {
                     this.alertType = ""
                     this.alertMessage = ""
                     this.isAlertActive = false
-                }, 3000);
+                }, 8000);
+                this.onReset()
                 this.showLoader = false
             });
         },
@@ -181,6 +194,11 @@ export default {
             this.form.title = ''
             this.form.description = ''
             this.form.file = ''
+            this.fileError = {
+                status: false,
+                type: '',
+                message: ''
+            },
             document.getElementById("image").value = ""
             this.data = new FormData()
 
