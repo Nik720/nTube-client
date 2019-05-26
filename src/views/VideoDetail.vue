@@ -75,8 +75,10 @@ export default {
         }
     },
     mounted() {
-        this.fetchVideoList(this.$route.params.id);
+        this.$ga.page(this.$router)
+        this.fetchVideoList(this.$route.params.id)
         this.setVideo(this.$route.params.id)
+        this.$parent.$refs.header.clearSearch()
     },
     methods: {
         fetchVideoList(vid) {
@@ -107,8 +109,10 @@ export default {
         }
     },
     beforeRouteUpdate (to, from, next) {
+        this.$ga.page(this.$router)
         this.setVideo(to.params.id)
         this.fetchVideoList(to.params.id);
+        this.$parent.$refs.header.clearSearch()
         next()
     }
 }

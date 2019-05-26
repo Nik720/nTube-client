@@ -1,6 +1,6 @@
 <template>
     <div>
-        <c-header></c-header>
+        <c-header ref='header'></c-header>
         <b-container class="mt-5 pt-4">
             <router-view ></router-view>
         </b-container>
